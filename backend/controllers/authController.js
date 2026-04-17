@@ -33,8 +33,11 @@ const registerUser = async (req, res) => {
 
 const authUser = async (req, res) => {
   const { email, password } = req.body;
+  console.log("DEBUG: Login attempt for email:", email);
   try {
     const user = await User.findOne({ email });
+    console.log("DEBUG: User found in DB:", user ? "YES" : "NO");
+    
     if (user && (await user.matchPassword(password))) {
       res.json({
         _id: user._id,
