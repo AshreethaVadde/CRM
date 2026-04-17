@@ -1,0 +1,194 @@
+@import "tailwindcss";
+
+@theme {
+  --color-crm-dark: #0f172a;
+  --color-crm-darker: #020617;
+  --color-crm-light: #cbd5e1;
+  --color-crm-teal: #14b8a6;
+  --color-crm-cyan: #0ea5e9;
+  --color-crm-accent: #8b5cf6;
+  
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --animate-float: float 6s ease-in-out infinite;
+  
+  @keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+  }
+
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes pulse-ring {
+    0% { transform: scale(0.8); opacity: 1; }
+    100% { transform: scale(2); opacity: 0; }
+  }
+}
+
+/* ─── DARK THEME (default) ─────────────────────────────── */
+:root,
+[data-theme="dark"] {
+  --bg-base: #020617;
+  --bg-surface: #0f172a;
+  --bg-elevated: #1e293b;
+  --bg-glass: rgba(15, 23, 42, 0.6);
+  --border-color: rgba(20, 184, 166, 0.2);
+  --border-hover: rgba(14, 165, 233, 0.4);
+  --text-primary: #ffffff;
+  --text-secondary: #cbd5e1;
+  --text-muted: rgba(203, 213, 225, 0.5);
+  --input-bg: rgba(2, 6, 23, 0.8);
+  --shadow-glow: rgba(20, 184, 166, 0.1);
+  --body-gradient-1: rgba(20, 184, 166, 0.1);
+  --body-gradient-2: rgba(14, 165, 233, 0.1);
+}
+
+/* ─── LIGHT THEME ───────────────────────────────────────── */
+[data-theme="light"] {
+  --bg-base: #f0f9ff;
+  --bg-surface: #ffffff;
+  --bg-elevated: #e0f2fe;
+  --bg-glass: rgba(255, 255, 255, 0.75);
+  --border-color: rgba(14, 165, 233, 0.25);
+  --border-hover: rgba(20, 184, 166, 0.5);
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --text-muted: rgba(51, 65, 85, 0.5);
+  --input-bg: rgba(240, 249, 255, 0.9);
+  --shadow-glow: rgba(14, 165, 233, 0.15);
+  --body-gradient-1: rgba(14, 165, 233, 0.08);
+  --body-gradient-2: rgba(20, 184, 166, 0.08);
+}
+
+@layer base {
+  body {
+    @apply font-sans;
+    background-color: var(--bg-base);
+    color: var(--text-secondary);
+    background-image: 
+      radial-gradient(circle at top right, var(--body-gradient-1) 0%, transparent 40%),
+      radial-gradient(circle at bottom left, var(--body-gradient-2) 0%, transparent 40%);
+    background-attachment: fixed;
+    min-height: 100vh;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  * { transition: background-color 0.2s ease, border-color 0.2s ease, color 0.15s ease; }
+}
+
+@layer utilities {
+  .glass {
+    background: var(--bg-glass);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--border-color);
+    border-radius: 1rem;
+    box-shadow: 0 8px 32px var(--shadow-glow);
+    transition: all 0.3s ease;
+  }
+
+  .glass-card {
+    background: var(--bg-glass);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--border-color);
+    border-radius: 1rem;
+    box-shadow: 0 8px 32px var(--shadow-glow);
+    transition: all 0.3s ease;
+  }
+
+  .glass-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--border-hover);
+    box-shadow: 0 12px 40px var(--shadow-glow);
+  }
+
+  .input-field {
+    width: 100%;
+    padding: 0.75rem;
+    background: var(--input-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 0.75rem;
+    color: var(--text-primary);
+    outline: none;
+    transition: all 0.3s ease;
+  }
+
+  .input-field:focus {
+    border-color: #0ea5e9;
+    box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.15);
+  }
+
+  .input-field::placeholder {
+    color: var(--text-muted);
+  }
+
+  .input-field option {
+    background: var(--bg-surface);
+    color: var(--text-primary);
+  }
+
+  .btn-primary {
+    @apply w-full p-3 bg-gradient-to-r from-crm-teal to-crm-cyan font-bold rounded-xl hover:opacity-90 active:scale-95 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg;
+    color: #0f172a;
+    shadow: 0 4px 20px rgba(20, 184, 166, 0.3);
+  }
+
+  .page-container {
+    flex: 1;
+    padding: 2rem;
+    overflow-y: auto;
+    width: 100%;
+    position: relative;
+    z-index: 10;
+    color: var(--text-secondary);
+  }
+
+  .page-title {
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    tracking-tight: true;
+  }
+
+  .text-primary { color: var(--text-primary) !important; }
+  .text-secondary { color: var(--text-secondary) !important; }
+  .text-muted { color: var(--text-muted) !important; }
+  .bg-surface { background: var(--bg-surface) !important; }
+  .bg-elevated { background: var(--bg-elevated) !important; }
+
+  /* Segment badges */
+  .badge-vip { @apply px-2.5 py-1 rounded-full text-xs font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30; }
+  .badge-frequent { @apply px-2.5 py-1 rounded-full text-xs font-bold bg-purple-500/20 text-purple-400 border border-purple-500/30; }
+  .badge-inactive { @apply px-2.5 py-1 rounded-full text-xs font-bold bg-red-500/20 text-red-400 border border-red-500/30; }
+  .badge-new { @apply px-2.5 py-1 rounded-full text-xs font-bold bg-blue-500/20 text-blue-400 border border-blue-500/30; }
+  .badge-occasional { @apply px-2.5 py-1 rounded-full text-xs font-bold bg-slate-500/20 text-slate-400 border border-slate-500/30; }
+  .badge-regular { @apply px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30; }
+
+  /* Tier badges */
+  .badge-bronze { @apply px-2 py-0.5 rounded-md text-xs font-bold bg-orange-900/30 text-orange-400 border border-orange-700/30; }
+  .badge-silver { @apply px-2 py-0.5 rounded-md text-xs font-bold bg-slate-400/20 text-slate-300 border border-slate-400/30; }
+  .badge-gold { @apply px-2 py-0.5 rounded-md text-xs font-bold bg-yellow-500/20 text-yellow-400 border border-yellow-500/30; }
+  .badge-platinum { @apply px-2 py-0.5 rounded-md text-xs font-bold bg-purple-500/20 text-purple-300 border border-purple-500/30; }
+
+  /* Notification animation */
+  .pulse-ring {
+    animation: pulse-ring 1.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+  }
+
+  .animate-slide-down {
+    animation: slideDown 0.2s ease-out;
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.3s ease-out;
+  }
+}
