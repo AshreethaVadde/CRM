@@ -35,7 +35,17 @@ app.set('io', io);
 global._io = io;
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: [
+    'https://crm-xz3b.onrender.com',
+    'http://localhost:5173',
+    'http://localhost:5174',
+    /\.vercel\.app$/,      // allow any *.vercel.app subdomain
+  ],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+}));
 
 // MongoDB connection
 mongoose.connect(process.env.MONGO_URI)
@@ -53,9 +63,13 @@ app.use('/api/messages', messageRoutes);
 app.use('/api/stores', storeRoutes);
 app.use('/api/admin/users', userAdminRoutes);
 
-// Root route to prevent 'Cannot GET /'
+// Root route — health check
 app.get('/', (req, res) => {
-  res.json({ message: 'CRM API is running successfully. Please open the frontend URL (e.g., http://localhost:5173 or 5174) in your browser to view the application.' });
+  res.json({
+    message: '✅ CRM API is live on Render',
+    status: 'running',
+    docs: '/api/auth/login (POST), /api/customers (GET), etc.',
+  });
 });
 // Socket.IO connection handling
 io.on('connection', (socket) => {
