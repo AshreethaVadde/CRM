@@ -24,8 +24,10 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = async (email, password) => {
+    console.log('API Base URL:', api.defaults.baseURL);
+    console.log('Calling login endpoint: /api/auth/login');
     try {
-      const { data } = await api.post('/auth/login', { email, password });
+      const { data } = await api.post('/api/auth/login', { email, password });
       localStorage.setItem('token', data.token);
       localStorage.setItem('user', JSON.stringify(data));
       setUser(data);
@@ -37,7 +39,7 @@ export const AuthProvider = ({ children }) => {
 
   const signup = async (name, email, password, role) => {
     try {
-      await api.post('/auth/signup', { name, email, password, role });
+      await api.post('/api/auth/signup', { name, email, password, role });
       navigate('/login');
     } catch (error) {
       throw new Error(error.response?.data?.message || 'Signup failed');

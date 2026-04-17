@@ -2,15 +2,20 @@ import axios from "axios";
 
 // Create Axios instance
 const api = axios.create({
-  baseURL: "https://crm-xz3b.onrender.com/api",
+  baseURL: "https://crm-xz3b.onrender.com",
   timeout: 10000, // prevents hanging requests
 });
+console.log('AXIOS INSTANCE INITIALIZED WITH BASE:', "https://crm-xz3b.onrender.com/api");
 
-// Request Interceptor (Attach Token)
+// Request Interceptor (Auto-prefix /api and Attach Token)
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("token");
+    // Automatically prepend /api if not present and not an absolute URL
+    if (config.url && !config.url.startsWith("/api") && !config.url.startsWith("http")) {
+      config.url = `/api${config.url.startsWith("/") ? "" : "/"}${config.url}`;
+    }
 
+    const token = localStorage.getItem("token");
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
