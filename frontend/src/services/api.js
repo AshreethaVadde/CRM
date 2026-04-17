@@ -1,8 +1,10 @@
 import axios from "axios";
 
-const API_BASE = "https://crm-xz3b.onrender.com";
+// Reads from frontend/.env → VITE_API_URL=https://crm-xz3b.onrender.com
+const API_BASE = import.meta.env.VITE_API_URL || "https://crm-xz3b.onrender.com";
 
-// Create Axios instance with explicit full /api base
+// Full base: https://crm-xz3b.onrender.com/api
+// Usage: api.post('/auth/login') → POST https://crm-xz3b.onrender.com/api/auth/login ✅
 const api = axios.create({
   baseURL: `${API_BASE}/api`,
   timeout: 10000,
