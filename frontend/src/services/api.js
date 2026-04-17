@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Create Axios instance
 const api = axios.create({
-  baseURL: "http://localhost:5000/api",
+  baseURL: "https://crm-xz3b.onrender.com/api",
   timeout: 10000, // prevents hanging requests
 });
 
