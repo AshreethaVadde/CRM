@@ -14,11 +14,17 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("🔥 FORM SUBMITTED — e.preventDefault() worked");
+    console.log("📧 Email:", email);
+    console.log("🔑 API base:", import.meta.env.VITE_API_URL);
     setError('');
     setLoading(true);
     try {
+      console.log("📡 Calling api.post('/auth/login')...");
       await login(email, password);
+      console.log("✅ Login SUCCESS");
     } catch (err) {
+      console.log("❌ Login ERROR:", err.message);
       setError(err.message);
     } finally {
       setLoading(false);
