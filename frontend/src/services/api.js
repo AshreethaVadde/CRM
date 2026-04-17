@@ -1,6 +1,7 @@
 import axios from "axios";
 
 // Reads from frontend/.env → VITE_API_URL=https://crm-xz3b.onrender.com
+console.log("✅ API URL:", import.meta.env.VITE_API_URL);
 const API_BASE = import.meta.env.VITE_API_URL || "https://crm-xz3b.onrender.com";
 
 // Full base: https://crm-xz3b.onrender.com/api
