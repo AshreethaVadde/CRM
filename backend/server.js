@@ -35,13 +35,24 @@ app.set('io', io);
 global._io = io;
 
 app.use(express.json());
+
+const ALLOWED_ORIGINS = [
+  'https://crm-xz3b.onrender.com',
+  'https://crm-livid-three-94.vercel.app',  // ← your Vercel frontend
+  'http://localhost:5173',
+  'http://localhost:5174',
+];
+
 app.use(cors({
-  origin: [
-    'https://crm-xz3b.onrender.com',
-    'http://localhost:5173',
-    'http://localhost:5174',
-    /\.vercel\.app$/,      // allow any *.vercel.app subdomain
-  ],
+  origin: function (origin, callback) {
+    // Allow requests with no origin (e.g. Postman, curl, mobile apps)
+    if (!origin) return callback(null, true);
+    // Allow any *.vercel.app subdomain
+    if (origin.endsWith('.vercel.app')) return callback(null, true);
+    if (ALLOWED_ORIGINS.includes(origin)) return callback(null, true);
+    console.warn('❌ CORS blocked origin:', origin);
+    callback(new Error('CORS: origin not allowed — ' + origin));
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
